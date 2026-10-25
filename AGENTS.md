@@ -20,5 +20,5 @@
 
 - `npm test`（vitest 24 例）+ `npm run typecheck`，改 `src/` 必跑。
 - 本机 npm 走 registry 需 `NODE_OPTIONS=--use-system-ca`（自签证书注入，同 org 其他仓记录）。
-- 首发形态 = GitHub public（`xianmi-lib/starlight-share-actions`）；npm 发布待办（token 需用户在 npm 站开新包权限，同 starlight-ai-actions 首发坑）。
+- **npm 0.1.1（2026-10-26 首发）**：granular token 选 All packages（新包不存在时不出现在 select packages 列表——同 starlight-ai-actions 首发坑），`npm publish --access public` 成功（16 文件/17.5KB）；发布后 `npm view` 先返回 `0.0.0-stage` 占位（处理期），约 1-2 分钟转绿。宽 token 用完即删、改按包限定（包已存在后下拉可见）。版本 bump 后改 package.json spec 记得显式 `npm install <pkg>@<spec>` 强制重解析（file:/github: 同款惰性坑）。
 - 版本史=仓根 `CHANGELOG.md`，发布坑与流程记本节，不在两处复写。
