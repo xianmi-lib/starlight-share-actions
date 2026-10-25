@@ -2,7 +2,7 @@
 
 Open-source [Starlight](https://starlight.astro.build) plugin: a **share menu** under the page title and a **selection-to-image share card generator**, built for the WeChat Moments workflow (where link previews are unreliable and images with QR codes are the robust medium).
 
-Born from the 显密文库 project — an aging-friendly Buddhist text library where readers share sutra passages to WeChat Moments — but this repository is a standalone, generic plugin: no site-specific content or configuration lives here.
+Born from the [显密文库](https://www.xianmi.co/) project — an aging-friendly Buddhist text library where readers share sutra passages to WeChat Moments — but this repository is a standalone, generic plugin: no site-specific content or configuration lives here.
 
 ## Why
 

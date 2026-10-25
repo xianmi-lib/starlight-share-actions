@@ -1,9 +1,10 @@
 {
   "name": "starlight-share-actions",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Starlight share plugin: a share menu under the page title (native share, X/Facebook/LINE/Weibo intents, copy link) plus a selection-to-image share card generator for WeChat Moments.",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://www.xianmi.co/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xianmi-lib/starlight-share-actions.git"

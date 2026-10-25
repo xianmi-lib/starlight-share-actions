@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- README: link 显密文库 to `https://www.xianmi.co/` (plain-text before); add npm `homepage` metadata — same attribution pattern as `starlight-ai-actions`.
+
 ## 0.1.1
 
 - Fix: the selection pill now defaults to **below** the selection (flipping above only near the viewport bottom). Mobile browsers draw their native text-selection toolbar (copy/share) in the browser UI layer above all page content and attach it above the selection, so a pill placed there was always covered; below-placement coexists with it.
