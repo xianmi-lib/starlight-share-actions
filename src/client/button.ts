@@ -11,27 +11,37 @@ const ICON_LINK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 const ICON_MORE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>`;
 
 /**
- * 锚点解析：优先并进 ai-actions 按钮行（.page-actions-bar）之后；
- * 无则落在 main h1 之后。都不在（如自定义首页）则静默不装。
+ * 锚点解析：ai-actions 按钮行（.page-actions-bar）在场时，分享按钮直接并入该行
+ * （同行同间距，视觉一族）；无则自建 .sa-bar 行落在 main h1 之后。
+ * 都不在（如自定义首页）则静默不装。
  */
-function findAnchor(): Element | null {
-  return document.querySelector('.page-actions-bar') ?? document.querySelector('main h1');
+function mountInto(button: HTMLElement, live: HTMLElement): void {
+  const bar = document.querySelector('.page-actions-bar');
+  if (bar) {
+    bar.appendChild(button);
+    bar.appendChild(live);
+    return;
+  }
+  const wrap = el('div', 'sa-bar');
+  wrap.append(button, live);
+  const h1 = document.querySelector('main h1');
+  if (!h1) {
+    return;
+  }
+  h1.insertAdjacentElement('afterend', wrap);
 }
 
 export function mountShareButton(options: ResolvedOptions, lang: string): void {
-  const anchor = findAnchor();
-  if (!anchor) return;
   const labels = resolveLabels(lang, options.labels);
 
-  const bar = el('div', 'sa-bar');
-  const btn = el('button', 'sa-btn', labels.share);
+  const btn = el('button', 'sa-btn');
   btn.type = 'button';
   btn.setAttribute('aria-haspopup', 'true');
   btn.setAttribute('aria-expanded', 'false');
-  btn.innerHTML = ICON_SHARE + `<span>${labels.share}</span>`;
-  bar.appendChild(btn);
+  btn.setAttribute('aria-label', labels.share);
+  btn.innerHTML = ICON_SHARE + `<span class="sa-label">${labels.share}</span>`;
+
   const live = makeLiveRegion();
-  bar.appendChild(live);
 
   let popover: HTMLElement | null = null;
   const close = () => {
@@ -47,7 +57,11 @@ export function mountShareButton(options: ResolvedOptions, lang: string): void {
     if (popover) return close();
     close();
     popover = buildPopover(options, lang, labels, close, live);
-    bar.appendChild(popover);
+    // 弹层不可进 <button>（交互内容嵌套不合规范）：挂到按钮父容器，锚类给定位上下文
+    const host = btn.parentElement;
+    if (!host) return;
+    host.classList.add('sa-anchor');
+    host.appendChild(popover);
     btn.setAttribute('aria-expanded', 'true');
     const first = popover.querySelector<HTMLElement>('a.sa-item, button.sa-item');
     first?.focus();
@@ -60,7 +74,7 @@ export function mountShareButton(options: ResolvedOptions, lang: string): void {
     }
   });
 
-  anchor.insertAdjacentElement('afterend', bar);
+  mountInto(btn, live);
 }
 
 function buildPopover(

@@ -1,10 +1,20 @@
 /** 全部类名 sa- 前缀；色板用 Starlight CSS 变量 + 兜底，深浅色模式自适应 */
 const CSS = `
-.sa-bar{position:relative;display:flex;margin:.65rem 0 0;print:hidden}
-.sa-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem .9rem;border:1px solid var(--sl-color-gray-4,#cad4de);border-radius:.5rem;background:var(--sl-color-white,#fff);color:var(--sl-color-black,#111);font-size:.95em;line-height:1.4;cursor:pointer}
-.sa-btn:hover{border-color:var(--sl-color-gray-5,#8f9ba8)}
-.sa-btn svg{width:1.1em;height:1.1em;flex:none}
-.sa-popover{position:absolute;top:calc(100% + .5rem);right:0;min-width:15rem;max-width:min(92vw,22rem);background:var(--sl-color-white,#fff);color:var(--sl-color-black,#111);border:1px solid var(--sl-color-gray-4,#cad4de);border-radius:.75rem;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:.4rem;z-index:60}
+/* 按钮与行：逐值对齐 starlight-ai-actions 的 .pa-btn/.page-actions-bar ghost 家族
+   （透明底、无边框、灰字 hover accent、text-sm、图标 1rem、窄屏藏文字）；
+   ai-actions 在场时按钮直接并入其按钮行，仅样式兜底时才用 .sa-bar 自建行 */
+.sa-bar{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:0.25rem 0.75rem;margin:0.75rem 0 0;print:hidden}
+.sa-btn{display:inline-flex;align-items:center;gap:0.375rem;padding:0.25rem 0.5rem;border:0;border-radius:0.375rem;background:none;color:var(--sl-color-gray-2,#5c6470);font-family:inherit;font-size:var(--sl-text-sm,0.875rem);line-height:inherit;text-decoration:none;white-space:nowrap;cursor:pointer;position:relative}
+.sa-btn:is(:hover,:focus-visible){color:var(--sl-color-accent-high,#3e63dd)}
+.sa-btn svg{width:1rem;height:1rem;flex:none}
+/* 弹层定位锚：加在按钮父容器上（pa 按钮行或 .sa-bar），relative 无位移不改布局 */
+.sa-anchor{position:relative}
+@media (max-width:40rem){
+  .sa-label{display:none}
+  .sa-btn{padding:0.375rem}
+  .sa-btn svg{width:1.125rem;height:1.125rem}
+}
+.sa-popover{position:absolute;top:calc(100% + 0.5rem);right:0;min-width:15rem;max-width:min(92vw,22rem);background:var(--sl-color-white,#fff);color:var(--sl-color-black,#111);border:1px solid var(--sl-color-gray-4,#cad4de);border-radius:0.75rem;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:0.4rem;z-index:60}
 .sa-item{display:flex;align-items:center;gap:.75rem;width:100%;padding:.8rem 1rem;min-height:3rem;border:none;border-radius:.5rem;background:transparent;color:inherit;font-size:1em;text-align:left;text-decoration:none;cursor:pointer}
 .sa-item:hover{background:rgba(127,127,127,.12)}
 .sa-item[data-state="ok"]{color:#1a7f37}

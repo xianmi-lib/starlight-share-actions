@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Visual alignment with `starlight-ai-actions`: the share button now uses the same ghost family (transparent background, no border, `--sl-color-gray-2` text with accent hover, `--sl-text-sm`, 1rem icon, label hidden on narrow screens with `aria-label` fallback) and **joins the `.page-actions-bar` row directly** when present (same row, same gap) instead of rendering its own styled row below it. The popover anchors to the host row. Fallback (no ai-actions) keeps an own row styled with the same values.
+
 ## 0.1.2
 
 - README: link 显密文库 to `https://www.xianmi.co/` (plain-text before); add npm `homepage` metadata — same attribution pattern as `starlight-ai-actions`.

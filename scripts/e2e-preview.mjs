@@ -37,7 +37,7 @@ async function waitForCard(browser, { ua } = {}) {
   const page = await context.newPage();
   await collectEvents(page);
   await page.goto(BASE + PATH, { waitUntil: 'domcontentloaded' });
-  await page.waitForSelector('.sa-bar button.sa-btn', { timeout: 15000 });
+  await page.waitForSelector('button.sa-btn', { timeout: 15000 });
   return { context, page };
 }
 
@@ -46,16 +46,16 @@ const browser = await chromium.launch();
 // ---------- 1. 挂载位置 + 菜单项 ----------
 {
   const { context, page } = await waitForCard(browser);
-  const bar = page.locator('.sa-bar');
-  const prevClass = await page.evaluate(() => {
-    const bar = document.querySelector('.sa-bar');
-    return bar?.previousElementSibling?.className ?? '';
+  const where = await page.evaluate(() => {
+    const btn = document.querySelector('button.sa-btn');
+    if (btn?.closest('.page-actions-bar')) return 'in-pa-bar';
+    const bar = btn?.closest('.sa-bar');
+    if (bar?.previousElementSibling?.tagName === 'H1') return 'own-bar-after-h1';
+    return 'nowhere';
   });
-  prevClass.includes('page-actions-bar') || prevClass === ''
-    ? ok(`按钮行挂载（前置锚点: ${prevClass || 'h1 兜底'}）`)
-    : fail('按钮行挂载锚点', `previousElementSibling.className=${prevClass}`);
+  where !== 'nowhere' ? ok(`按钮挂载（${where}）`) : fail('按钮挂载', where);
 
-  await page.click('.sa-bar button.sa-btn');
+  await page.click('button.sa-btn');
   await page.waitForSelector('.sa-popover');
   const items = await page.$$eval('.sa-popover .sa-item', (els) =>
     els.map((e) => ({ text: e.textContent?.trim() ?? '', href: e.getAttribute('href') ?? '' })),
@@ -156,7 +156,7 @@ const browser = await chromium.launch();
   const { context, page } = await waitForCard(browser, {
     ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.49',
   });
-  await page.click('.sa-bar button.sa-btn');
+  await page.click('button.sa-btn');
   await page.click('.sa-popover .sa-item:first-child');
   await page.waitForSelector('.sa-modal', { timeout: 5000 });
   const hintVisible = await page.locator('.sa-modal .sa-hint').isVisible().catch(() => false);
