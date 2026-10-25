@@ -1,0 +1,50 @@
+{
+  "name": "starlight-share-actions",
+  "version": "0.1.0",
+  "description": "Starlight share plugin: a share menu under the page title (native share, X/Facebook/LINE/Weibo intents, copy link) plus a selection-to-image share card generator for WeChat Moments.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xianmi-lib/starlight-share-actions.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xianmi-lib/starlight-share-actions/issues"
+  },
+  "keywords": [
+    "starlight",
+    "starlight-plugin",
+    "astro",
+    "share",
+    "share-card",
+    "weixin",
+    "documentation"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client/main.ts",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src"
+  ],
+  "peerDependencies": {
+    "@astrojs/starlight": ">=0.42.0",
+    "astro": "^7.2.10"
+  },
+  "dependencies": {
+    "@zumer/snapdom": "^3.3.7",
+    "uqr": "^0.1.3"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@astrojs/starlight": "^0.42.6",
+    "astro": "^7.3.8",
+    "playwright": "^1.64.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}
