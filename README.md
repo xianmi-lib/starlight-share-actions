@@ -10,6 +10,7 @@ Born from the 显密文库 project — an aging-friendly Buddhist text library w
 - **Share card**: readers select a meaningful passage (or just tap the button) and get a ready-to-post PNG — quote, page title, site name and a QR code back to the page. Rendered 100% client-side (no server, works on static hosting), tuned for the platforms where link cards degrade to bare URLs.
 - **Zero component overrides**: the UI is injected by a client script next to `.page-actions-bar` (it coexists with `starlight-ai-actions`) or after `main h1`, so it never fights other plugins for Starlight component overrides.
 - **WeChat-aware**: inside the WeChat in-app browser (no `navigator.share`) the card modal presents the generated image with a long-press-to-save hint; elsewhere it offers download / Web Share with the image file.
+- **Mobile-friendly selection**: the selection pill is placed *below* the selection — mobile browsers draw their native copy/share toolbar in the browser UI layer (always above page content, attached above the selection), so the pill avoids that spot and coexists with it.
 - **CJK vertical text**: the built-in “Vertical” style uses `writing-mode: vertical-rl` — ancient-book typography that foreignObject-based capture engines (snapdom) render natively.
 - **Lazy**: snapdom + uqr are dynamically imported on first card generation; the per-page cost is a few KB.
 

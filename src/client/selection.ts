@@ -60,8 +60,12 @@ export function mountSelectionPill(options: ResolvedOptions, lang: string): void
     const pw = p.offsetWidth;
     const ph = p.offsetHeight;
     const left = Math.min(Math.max(rect.left + rect.width / 2 - pw / 2, 8), window.innerWidth - pw - 8);
-    let top = rect.top - ph - 10;
-    if (top < 8) top = rect.bottom + 10;
+    // 原生选区菜单（Chrome/Android/iOS 的复制/分享工具条）画在浏览器 UI 层、页面元素恒在其下，
+    // 且默认挂选区上方——浮标默认放选区下方避开（14px 间隙同时让开选区拖拽柄），
+    // 仅贴近视口底才翻到上方。
+    let top = rect.bottom + 14;
+    if (top + ph > window.innerHeight - 8) top = rect.top - ph - 14;
+    if (top < 8) top = 8;
     p.style.left = `${Math.round(left)}px`;
     p.style.top = `${Math.round(top)}px`;
     p.style.visibility = 'visible';
