@@ -94,9 +94,11 @@ export function openCardModal(options: ResolvedOptions, lang: string, selection?
   activeCleanup?.();
   activeCleanup = null;
 
+  const title = getPageTitle();
   const ctxBase = {
-    quote: normalizeQuote(selection?.trim() || firstParagraphText(), card.maxQuoteLength),
-    title: getPageTitle(),
+    // 引文序：选中文字 → 正文首段 → 页题（都空时保底，卡片不留空白引文区）
+    quote: normalizeQuote(selection?.trim() || firstParagraphText() || title, card.maxQuoteLength),
+    title,
     url: getPageUrl(),
   };
   let style = card.styles.find((s) => s.id === card.defaultStyleId) ?? card.styles[0];

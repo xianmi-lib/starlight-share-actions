@@ -9,12 +9,24 @@ export function getPageTitle(): string {
   return (h1?.textContent ?? document.title ?? '').replace(/\s+/g, ' ').trim();
 }
 
-/** 一键金句的缺省选文：正文第一段（Starlight 内容容器优先） */
+/** 一键金句的缺省选文：正文中第一段够长的段落（先锚定内容容器——main 直下会先命中
+ *  其他插件在标题区留下的空 <p>（如 ai-actions 的 sr-only 状态播报区）；短标题式
+ *  首段（如「第八十講」）跳过，取不到则回退最长段） */
 export function firstParagraphText(): string {
-  const p = document.querySelector(
-    'main .sl-markdown-content p, main .sl-markdown-content > div p, main article p, main p',
-  ) as HTMLElement | null;
-  return p?.textContent ?? '';
+  const root =
+    document.querySelector('main .sl-markdown-content') ??
+    document.querySelector('main article') ??
+    document.querySelector('main');
+  const paras = [...(root?.querySelectorAll('p') ?? [])];
+  const MIN = 12;
+  const first = paras.map((p) => (p.textContent ?? '').replace(/\s+/g, ' ').trim()).find((t) => t.length >= MIN);
+  if (first) return first;
+  let longest = '';
+  for (const p of paras) {
+    const t = (p.textContent ?? '').trim();
+    if (t.length > longest.length) longest = t;
+  }
+  return longest;
 }
 
 export async function copyText(text: string): Promise<boolean> {
